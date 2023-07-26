@@ -29,6 +29,7 @@
     text-align: right;
     font-family: var(--title-2);
     position: relative;
+    z-index: 1;
 }
 /* #story-title::before{
     content: '';
@@ -47,6 +48,28 @@
     font-size: 1.2rem;
     font-family: var(--desc-1);
     text-wrap: balance;
+    z-index: 1;
+}
+
+.img-container {
+    position: absolute;
+    inset: 0 0 0 0;
+}
+.bg-img {
+    position: absolute;
+    object-fit: cover;
+    opacity: 0.3;
+    z-index: 0;
+}
+.bg-img:first-child {
+    top: 100px;
+    left: 15px;
+    width: 500px;
+}
+.bg-img:nth-child(2) {
+    top: 0;
+    right: 100px;
+    width: 300px;
 }
 /* Story End */
 
@@ -154,8 +177,15 @@
 #industry .card:hover .card_content {
     transform: translateY(0px);
 }
+#industry .card:focus-within .card_content {
+    transform: translateY(0px);
+}
 
 #industry .card:hover .card_description {
+    opacity: 1;
+    transition-delay: .25s;
+}
+#industry .card:focus-within .card_description {
     opacity: 1;
     transition-delay: .25s;
 }
