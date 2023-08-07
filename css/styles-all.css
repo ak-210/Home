@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=EB+Garamond&family=Roboto+Slab&display=swap');
+
 :root {
     --nav-margin: 7vw;
     --skew: skewY(-3deg);
@@ -8,23 +10,35 @@
     --hover-color: #6258ee27;
     --bg-color: #A7EDE7;
 
-    --gradient:  linear-gradient(-45deg, var(--color-2) 0%, var(--primary-red) 100% );
-
     --title-1:'DM Serif Display', serif;
     --title-2: 'EB Garamond', serif;
-    --title-3: 'Slabo 27px', serif;
     --desc-1:'Roboto Slab', serif;
 }
+@media (max-width: 992px) {
+    :root{
+        --nav-margin: 5vw;
+    }
+}
 
+@media (max-width: 576px) {
+    .hidden-xs{
+        display: none;
+    }
+    :root{
+        --skew: skewY(-5deg);
+    }
+}
+
+.spacer{
+    height: 11rem;
+}
+
+/* Removing few designs */
 button {
     outline: none;
     text-decoration: none;
     border: 0;
     background: transparent;
-}
-
-.spacer{
-    height: 11rem;
 }
 
 a{
@@ -63,6 +77,14 @@ html {
     margin-left: var(--nav-margin);
     cursor: pointer;
 }
+@media (max-width: 992px) {
+    .logo{
+        height: 50px;
+        width: auto;
+        aspect-ratio: 559/243;
+        background-image: url(../img/logo2.png);
+    }
+}
 
 /* Navigation button for small screens */
 .navbar-toggler{
@@ -94,9 +116,34 @@ html {
     color: #000;
 }
 .dropdown-item:hover {
-    /* width: fit-content; */
     background: none;
     background-color: var(--hover-color);
+}
+
+@media (max-width: 768px) {
+    .logo{
+        height: 40px; /* No need for width as aspect ratio is maintained */
+    }
+
+    .nav-item{
+        width: fit-content;
+        margin-bottom: 10px;
+    }
+    
+    #nav-list{
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding-left: calc(var(--nav-margin) - 10px);
+    }
+    
+    .dropdown-menu{
+        border: 0;
+        padding: 0;
+    }
+
+    #nav-list li:last-child{
+        margin-bottom: 0px;
+    }
 }
 
 .active-tab {
@@ -145,6 +192,25 @@ html {
 }
 /* CTA Button End */
 
+/* Skewed Background *********************************************/
+.skew-bg {
+    position: relative;
+}
+
+.skew-bg > * {
+    z-index: 1;
+}
+
+.skew-bg::before {
+    content: '';
+    background-color: var(--bg-color);
+    position: absolute;
+    inset: -10% 0 -10% 0;
+    transform: var(--skew);
+    z-index: -1;
+}
+/* Skewed Background End */
+
 /* Banner **********************************************************/
 #banner{
     height: 950px;
@@ -181,6 +247,15 @@ html {
     text-align: center;
     z-index: 1;
 }
+
+@media (max-width: 768px) {
+    #banner-title{
+        font-size: 4rem;
+    }
+    #banner-desc{
+        font-size: 20px;
+    }
+}
 /* Banner End */
 
 /* Footer ************************************************************/
@@ -208,10 +283,8 @@ footer::before {
     padding-bottom: 10rem;
     display: grid;
     align-items: center;
-    /* justify-items: start; */
     row-gap: 1rem;
     column-gap: 5rem;
-    /* place-items: center; */
     grid-template-columns: 1fr 120px 250px;
     grid-template-areas:
     'h b d'
@@ -238,7 +311,6 @@ footer::before {
     grid-area: h;
     height: 100px;
     aspect-ratio: 371 / 201;
-    /* margin-bottom: 2rem; */
     margin: auto 0;
     background: url(../img/footer-logo.png) no-repeat center / cover;
 }
@@ -272,90 +344,9 @@ footer::before {
 
 #footer-content > ul {
     list-style: none;
+    font-family: var(--desc-1);
     line-height: 30px;
     padding-left: 0.8rem;
     margin-bottom: 20px;
 }
 /* Footer End */
-
-/*******************************************************************/
-
-/************ XL Devices ************/
-@media (max-width: 1400px) {
-
-}
-
-/************ LG Devices ************/
-@media (max-width: 1200px) {
-
-}
-
-/************ MD Devices ************/
-@media (max-width: 992px) {
-    :root{
-        --nav-margin: 5vw;
-    }
-
-    .logo{
-        height: 50px;
-        width: auto;
-        aspect-ratio: 559/243;
-        background-image: url(../img/logo2.png);
-    }
-}
-
-/************ SM Devices ************/
-@media (max-width: 768px) {
-    /* Navigation */
-    .logo{
-        height: 40px;
-        /* width: 95px; */
-    }
-    .brand-name{
-        display: inline;
-    }
-    .nav-item{
-        width: fit-content;
-        /* margin-left: 35px; */
-        margin-bottom: 10px;
-    }
-    
-    #nav-list{
-        margin-top: 20px;
-        margin-bottom: 10px;
-        padding-left: calc(var(--nav-margin) - 10px);
-    }
-    
-    .dropdown-menu{
-        border: 0;
-        padding: 0;
-    }
-
-    #nav-list li:last-child{
-        margin-bottom: 0px;
-    }
-    /* Navigation End */
-
-    /* Banner */
-    #banner-title{
-        font-size: 55px;
-    }
-    #banner-desc{
-        font-size: 20px;
-    }
-}
-
-/************ XS Devices ************/
-@media (max-width: 576px) {
-    .hidden-xs{
-        display: none;
-    }
-    :root{
-        --skew: skewY(-5deg);
-    }
-
-    /* banner */
-    #banner {
-        height: 100vh;
-    }
-}

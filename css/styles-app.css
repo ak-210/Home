@@ -21,6 +21,16 @@ a{
     color: inherit;
 }
 
+i {
+    width: 100%;
+    position: relative;
+}
+i::before {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 html::-webkit-scrollbar {
     display: none;
@@ -99,6 +109,7 @@ html {
         height: 70px;
     }
 }
+/* Loading animation End */
 
 /* Navigation styles *********************************************************/
 #nav {
@@ -108,8 +119,9 @@ html {
     flex-direction: column;
     align-items: start;
     justify-content: space-evenly;
-    padding-left: 1rem;
-    /* gap: 1.5rem; */
+    gap: 1rem;
+    padding: 1rem 0 1rem 1rem;
+    /* overflow-x: scroll; */
 }
 
 /* Co-ordinates */
@@ -135,7 +147,6 @@ html {
     border: none;
     border-bottom: 1px solid black;
 }
-
 #dates:focus {
     outline: none;
     border-bottom-color: gray;
@@ -263,7 +274,6 @@ fieldset > div > input:checked {
     position: relative;
     cursor: pointer;
     overflow: hidden;
-    /* z-index: -1; */
     -webkit-transition: 0.4s;
     -o-transition: 0.4s;
     transition: 0.4s;
@@ -303,7 +313,7 @@ fieldset > div > input:checked {
 }
 
 .image-toggler:checked::after {
-    transform: translate(calc(var(--width) - var(--height)), 2.5px);
+    transform: translate(calc(var(--width) - var(--height) + 2.5px), 2.5px);
     background-color: white;
 }
 
@@ -311,4 +321,8 @@ fieldset > div > input:checked {
 #map {
     width: 100%;
     aspect-ratio: 16/9;
+}
+
+.drawPane {
+    z-index: 402;
 }

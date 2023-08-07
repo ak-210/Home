@@ -5,7 +5,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>
-        App
+        App | ASCI
     </title>
     <link rel="icon" type="image/x-icon" href="img/icon.ico">
 
@@ -42,18 +42,16 @@
 
     <div class="side">
         <aside id="nav">
-            <!-- <button id="btn">layer</button> -->
-
             <form id="coords">
-                <input type="text" id="long" placeholder="Longitude">
                 <input type="text" id="lat" placeholder="Latitude">
+                <input type="text" id="long" placeholder="Longitude">
                 <button><i class="bi bi-caret-right-fill"></i></button>
             </form>
 
             <input type="date" id="dates">
 
             <div class="block">
-                <button id="btn-visual" class="btn-main"> <span class="btn-content">Add Visual Image</span> </button>
+                <button id="btn-visual" class="btn-main"> <span class="btn-content">Get Satellite Image</span> </button>
                 <input type="checkbox" id="visual-checkbox" class="image-toggler">
             </div>
             
@@ -64,17 +62,12 @@
             </fieldset>
             
             <div class="block">
-                <button id="btn-kpi" class="btn-main"> <span class="btn-content">Add KPI Image</span> </button>
+                <button id="btn-kpi" class="btn-main"> <span class="btn-content">Get KPI Image</span> </button>
                 <input type="checkbox" id="kpi-checkbox" class="image-toggler">
             </div>
             
             <fieldset id="days">
-                <!-- <legend>Days</legend> -->
-                <!-- <div> <input type="radio" id="0" name="day"><label for="0">2022-05-03</label> </div>
-                <div> <input type="radio" id="1" name="day"><label for="1">2022-04-28</label> </div>
-                <div> <input type="radio" id="2" name="day"><label for="2">2022-04-23</label> </div>
-                <div> <input type="radio" id="3" name="day"><label for="3">2022-04-18</label> </div>
-                <div> <input type="radio" id="4" name="day"><label for="4">2022-04-13</label> </div> -->
+                <!-- Updated using JS -->
             </fieldset>
 
             <button id="btn-data" class="btn-main"> <span class="btn-content">Get Point Data</span> </button>
@@ -85,7 +78,6 @@
         <div id="map"></div>
     </div>
     
-    <!-- jQuery (Bootstrap JS plugins depend on it) -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src='bootstrap/bootstrap.min.js'></script>
     <script src='bootstrap/ajax-utils.js'></script>

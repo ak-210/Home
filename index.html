@@ -11,22 +11,13 @@
     <!-- Bootstrap -->
     <link rel='stylesheet' href='bootstrap/bootstrap.min.css'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap" rel="stylesheet">
     
     <link rel='stylesheet' href='css/styles-all.css'>
     <link rel='stylesheet' href='css/styles-index.css'>
 </head>
 
 <body>
-    <header>
-    </header> <!-- Navigation End -->
+    <header></header> <!-- Navigation End -->
 
     <!-- Banner Start -->
     <div id="banner" class="container-fluid">
@@ -38,9 +29,8 @@
     <div class="spacer"></div>
 
     <!-- Story Start -->
-    <div id="story" class="container-fluid scroll-hide">
+    <div id="story" class="container-fluid scroll-hide skew-bg">
         <h2 id="story-title">What We Do?</h2>
-        <!-- <p id="story-txt">There are Petabytes of Earth-Obseravation data out there being recorded world over through multiple sources. There are quantum leaps being made in computational power and deep tech algorithms. We are a group of data engineers and data scientists who combine them both to radically augment your value chain and give you that competitive edge.</p> -->
 
         <ul class="story-list">
             <li class="list-item"><span>We are a geospatial analytics company</span> <img src="img/story-1.png" alt=""></li>
@@ -63,7 +53,7 @@
         <p>Find out more about our Work</p>
         <div id="industry">
             <div class="card">
-                <img src="img/agri.jpg" alt="">
+                <img class="card_img" src="img/agri.jpg" alt="">
                 <div class="card_content">
                     <h4 class="card_title">Agriculture</h4>
                     <a href="" class="card_link">Find out more</a>
@@ -71,7 +61,7 @@
             </div>
 
             <div class="card">
-                <img src="img/mine.png" alt="">
+                <img class="card_img" src="img/mine.png" alt="">
                 <div class="card_content">
                     <h4 class="card_title">Mining</h4>
                     <a href="" class="card_link">Find out more</a>
@@ -79,7 +69,7 @@
             </div>
 
             <div class="card">
-                <img src="img/urban.png" alt="">
+                <img class="card_img" src="img/urban.png" alt="">
                 <div class="card_content">
                     <h4 class="card_title">Urban Planning</h4>
                     <a href="" class="card_link">Find out more</a>
@@ -92,7 +82,7 @@
     <div class="spacer"></div>
 
     <!-- Services -->
-    <div id="services-container" class="scroll-hide">
+    <div id="services-container" class="scroll-hide skew-bg">
         <h3>Geospatial Services</h3>
         <div id="services">
             <div class="card">
@@ -115,20 +105,6 @@
                 <p class="card-para">Multi-dimensional spectral analytics</p>
                 </div>
             </div> <!-- Card End -->
-            
-            <!-- <div class="card">
-                <div class="card-content">
-                <p class="card-title">Insights</p>
-                <p class="card-para">Uncover hidden truths about your business </p>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-content">
-                    <p class="card-title">Applications</p>
-                    <p class="card-para">Play around and design tailored made applications that suit your complex needs</p>
-                </div>
-            </div> -->
         </div>
 
     </div>
@@ -145,8 +121,7 @@
     <div class="spacer"></div>
 
     <!-- Contact Page -->
-    <footer class="scroll-hide">
-    </footer>
+    <footer class="scroll-hide"></footer>
     <!-- Contact Page End -->
     
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
@@ -154,10 +129,6 @@
     <script src='bootstrap/ajax-utils.js'></script>
     <script src='js/script-info.js'></script>
     <script src='js/script-scroll.js'></script>
-    <script type="module" src='js/script.js'></script>
-
-    <!-- <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/jquery"></script>
-    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="js/script-globe.js"></script> -->
+    <script type="module" src='js/script-case-study.js'></script>
 </body>
 </html>

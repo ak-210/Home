@@ -15,7 +15,7 @@
     position: relative;
 }
 
-#banner-title::before{
+#banner-title::before{ /* for underline */
     content: '';
     position: absolute;
     inset: auto 0 0 0;

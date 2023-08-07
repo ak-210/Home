@@ -67,7 +67,7 @@ document.getElementById('coords').onsubmit = e => {
     map.setView([lat, long])
 }
 
-// Adding controls to map /////////////////////////////////////////////////////////////////////////
+// Adding Draw controls to map /////////////////////////////////////////////////////////////////////////
 var drawn_items = new L.FeatureGroup();
 map.addLayer(drawn_items);
 var drawn_markers = new L.FeatureGroup();
@@ -87,7 +87,8 @@ var draw_control = new L.Control.Draw({
         rectangle:{
             shapeOptions:{
                 fillOpacity: 0,
-                color:'purple'
+                color:'purple',
+                zIndex: 402
             }
         },
         marker:false
@@ -121,13 +122,14 @@ function failedToLoad() {
 }
 
 // Selecting Dates /////////////////////////////////////////////////////////////
+// Changing the dates on page
 function updateDates() {
     document.getElementById('days').innerHTML = '<legend>Days</legend>'
     for(let i = 0; i < 5; i++){
         document.getElementById('days').innerHTML += `<div> <input type="radio" id="${i}" name="day"><label for="${i}">${g_days[i].slice(11, 21)}</label> </div>`
     }
 }
-
+// Changing the global array of days /////////////////////////////////
 function selectDates(day) {
     g_days = []
     var start = new Date(day)
@@ -143,34 +145,33 @@ function selectDates(day) {
 
 const date = document.getElementById('dates');
 date.valueAsDate = new Date();
+selectDates(new Date())
 
-date.onchange = function(){
+// Function to run when date is selected
+date.onchange = function() {
     if(this.valueAsDate > new Date){
         this.valueAsDate = new Date();
         alert("Can't have a Date in future")
     }
     selectDates(this.valueAsDate)
 }
-selectDates(new Date())
 
 // Functions to do when getting visual image ////////////////////////////////////////////////////
-async function setVisualImages(dates) {
+// Function to send the 5 api calls
+async function setVisualImages() {
     g_images = []
-    for (let i = 0; i < dates.length; i++){
+    for (let i = 0; i < g_days.length; i++){
         if(i === 0) {
             showLoader()
-            await getVisualImageOverlay(dates[i], true)
+            await getVisualImageOverlay(g_days[i], true)
             // console.log(g_images[0])
-            // g_img_overlay = L.imageOverlay(g_images[0], [ [g_bounds[1],g_bounds[2]],[g_bounds[0],g_bounds[3]] ], {zIndex: 1}).addTo(map);
         } else{
-            await getVisualImageOverlay(dates[i], false)
+            await getVisualImageOverlay(g_days[i], false)
         }
     }
 }
-
+// Function to get image and create overlay
 async function getVisualImageOverlay(date, add) {
-    // showLoader();
-    // date : "2022-04-07/2022-05-07"
     var options =  {
         method: 'post',
         body: JSON.stringify({"bbox": g_bounds,"time_of_interest": date}),
@@ -179,7 +180,8 @@ async function getVisualImageOverlay(date, add) {
             'Content-type': 'application/json'
         }
     }
-    var res = await fetch(`${url}/visual-image/`, options).catch(failedToLoad())
+    // var res = await fetch("https://picsum.photos/500/500") // For Testing
+    var res = await fetch(`${url}/visual-image/`, options).catch(failedToLoad()) // Actual line
     var img_data = await res.blob();
   
     if (400 <= res.status && res.status <= 599) {
@@ -192,46 +194,36 @@ async function getVisualImageOverlay(date, add) {
     fr.readAsDataURL(img_data);
     fr.addEventListener('load', () => {
         if (add){
-            // datesElement[0].checked = true
             g_img_overlay = L.imageOverlay(fr.result, [ [g_bounds[1],g_bounds[2]],[g_bounds[0],g_bounds[3]] ], {pane: 'imagePane'}).addTo(map);
+            datesElement[0].checked = true // Indicating the date that is checked
+            // Adding the checkbox to toggle the image
             document.getElementById('visual-checkbox').style.display = 'block';
-            // document.getElementById('visual-checkbox').checked
+            document.getElementById('visual-checkbox').checked = true
+            hideLoader()
         }
         g_images.push(fr.result)
-        // return fr.result;
     });
 }
 
 document.getElementById('btn-visual').onclick = function(){
-    // const days = ['2022-04-13/2022-05-03', '2022-04-13/2022-04-28', '2022-04-13/2022-04-23', '2022-04-13/2022-04-18', "2022-04-08/2022-04-13"]
-  
     g_bounds = [map.getBounds().getSouth(), map.getBounds().getNorth(), map.getBounds().getWest(), map.getBounds().getEast()];
     
-    // map.zoomOut();
-
-    setVisualImages(g_days)
+    map.zoomOut();
     
+    setVisualImages()
 };
 
 // Changing the vissual image ////////////////////
 const datesElement = document.querySelectorAll('input[name = "day"]')
-
-datesElement.forEach(date => {
-    date.onclick = () => {
-        console.log(date, date.checked)
-        date.checked = !date.checked
-        console.log(date, date.checked)
-    }
-})
-
 document.getElementById('days').onclick = () => {
     datesElement.forEach(date => {
-        console.log(date, date.checked)
+        // console.log(date, date.checked)
         if(date.checked == true){
-            console.log(date)
-            // map.removeLayer(g_img_overlay)
+            // console.log(date)
+            map.removeLayer(g_img_overlay)
             g_img_overlay = L.imageOverlay(g_images[date.id], [ [g_bounds[1],g_bounds[2]],[g_bounds[0],g_bounds[3]] ], {pane: 'imagePane'}).addTo(map);
-            console.log(date.id)
+            document.getElementById('visual-checkbox').checked = true
+            // console.log(date.id)
         }
     })
 }
@@ -246,6 +238,17 @@ document.getElementById('visual-checkbox').onclick = () => {
 }
 
 // Functions to do when getting KPI image ////////////////////////////////////////////////////
+// Selecting KPI 
+document.getElementById('kpi').onclick = function() {
+    kpis.forEach(option => {
+        if (option.checked == true){
+            g_kpi = option.id;
+            // console.log(g_kpi)
+        }
+    })
+}
+
+// Getting the KPI image
 async function getKpiImage(bounds, date) {
     showLoader()
     var options =  {
@@ -256,8 +259,10 @@ async function getKpiImage(bounds, date) {
           'Content-type': 'application/json'
         }
     }
-    console.log(JSON.stringify({"bbox": g_bounds,"time_of_interest": date, "kpi": g_kpi, "phase_list": coordinates}))
-    var res = await fetch(`${url}/kpi-image/`, options)
+    // console.log(JSON.stringify({"bbox": g_bounds,"time_of_interest": date, "kpi": g_kpi, "phase_list": coordinates}))
+
+    // var res = await fetch("https://picsum.photos/500/500") // For Testing
+    var res = await fetch(`${url}/kpi-image/`, options).catch(failedToLoad()) // Actual line
     var img_data = await res.blob();
 
     if (400 <= res.status && res.status <= 599) {
@@ -270,31 +275,20 @@ async function getKpiImage(bounds, date) {
     fr.readAsDataURL(img_data);
     fr.addEventListener('load', ()=> {
         g_kpi_overlay = L.imageOverlay(fr.result, [ [bounds[1],bounds[2]],[bounds[0],bounds[3]] ], {pane: 'KPIimagePane'}).addTo(map);
-        hideLoader()
+        hideLoader();
         document.getElementById('kpi-checkbox').style.display = 'block';
-        // return fr.result
+        document.getElementById('kpi-checkbox').checked = true;
     });
 }
-
-// Selecting KPI //////////////
-
-document.getElementById('kpi').onclick = function() {
-    kpis.forEach(option => {
-        if (option.checked == true){
-            g_kpi = option.id;
-            // console.log(g_kpi)
-        }
-    })
-}
-
+// function run on the button click
 document.getElementById('btn-kpi').onclick = function(){
     var bbox
 
     drawn_items.eachLayer(layer => {
-        bbox = [drawn_items.getBounds().getSouth(), drawn_items.getBounds().getNorth(), drawn_items.getBounds().getWest(), drawn_items.getBounds().getEast()];
+        bbox = [layer.getBounds().getSouth(), layer.getBounds().getNorth(), layer.getBounds().getWest(), layer.getBounds().getEast()];
         coordinates.push(pre_process_array(layer.toGeoJSON().geometry.coordinates[0]))
-        console.log(bbox)
-        console.log(coordinates)
+        // console.log(bbox)
+        // console.log(coordinates)
     });
     
     if(!bbox){
@@ -305,11 +299,10 @@ document.getElementById('btn-kpi').onclick = function(){
     } else {
         alert("Please select a valid KPI")
     }
-    // getKpiImage(pre_process_array(coordinates), g_days[0])
     
 };
 
-// Visual image toggle /////////////////////////////////
+// KPI image toggle /////////////////////////////////
 document.getElementById('kpi-checkbox').onclick = () => {
     if (document.getElementById('kpi-checkbox').checked) {
         map.addLayer(g_kpi_overlay);
@@ -338,7 +331,7 @@ map.on(L.Draw.Event.CREATED, function (e) {
             popup_content += `${coord[i][1]}, ${coord[i][0]} <br>`
         }
         var area = L.GeometryUtil.geodesicArea(layer.getLatLngs());
-        popup_content += `Area: ${area}`
+        // popup_content += `Area: ${area}`
         layer.bindPopup(popup_content).openPopup();
         drawn_items.addLayer(layer);
     }
@@ -358,7 +351,7 @@ function pre_process_array(input) {
     return output;
 }
 
-// Getting marker data ///////////////////////////////////////////////////
+// Getting marker data to send ///////////////////////////////////////////////////
 async function sendData(){
     showLoader()
     var options =  {
@@ -369,9 +362,9 @@ async function sendData(){
             'Content-type': 'application/json'
         }
     }
-    console.log(JSON.stringify({"bbox": g_bounds,"time_of_interest": g_days[0], "kpi": g_kpi, "past_data_points": 5, "pixel_list": g_markers_list}))
+    // console.log(JSON.stringify({"bbox": g_bounds,"time_of_interest": g_days[0], "kpi": g_kpi, "past_data_points": 5, "pixel_list": g_markers_list}))
     
-    var res = await fetch(`${url}/kpi-image/`, options)
+    // var res = await fetch(`${url}/kpi-image/`, options).catch(failedToLoad())
     var data = await res.json();
 
     if (400 <= res.status && res.status <= 599) {
@@ -400,7 +393,6 @@ async function sendData(){
     }
 
     createGraph(datasets);
-    hideLoader()
 }
 
 // Creating Graphs
@@ -412,14 +404,20 @@ function createGraph(yData) {
             datasets: yData
         }
     });
-  }
+    hideLoader()
+}
 
 document.getElementById('btn-data').onclick = function() {
     drawn_markers.eachLayer(layer => {
         g_markers_list.push({'title': layer.title, 'Coords': layer.toGeoJSON().geometry.coordinates})
-        console.log(g_markers_list)
     })
+    // console.log(g_markers_list == [])
 
-    sendData()
-    console.log(JSON.stringify({"bbox": g_bounds, "time_of_interest": g_days[0], "kpi": g_kpi, "past_data_points": 5, "pixel_list": g_markers_list}))
+    if(g_markers_list.length == 0){
+        alert('Please add some markers first')
+    }
+    else {
+        // sendData()
+    }
+    // console.log(JSON.stringify({"bbox": g_bounds, "time_of_interest": g_days[0], "kpi": g_kpi, "past_data_points": 5, "pixel_list": g_markers_list}))
 }
